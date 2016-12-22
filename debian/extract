@@ -1,0 +1,12 @@
+#!/bin/bash
+
+filename=$1
+extension=${filename##*.}
+
+EXT_gz="tar -C tmp -zxf"
+EXT_bz2="tar -C tmp -jxf"
+EXT_xz="tar -C tmp -Jxf"
+EXT_zip="unzip -d tmp"
+
+cmd=EXT_${extension}
+${!cmd} $filename

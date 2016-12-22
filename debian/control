@@ -1,0 +1,16 @@
+Source: arm-sam-gcc
+Section: compilers
+XBSC-Family: arm-sam
+Priority: extra
+Maintainer: Matt Jenkins <matt@majenko.co.uk>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.4
+Homepage: http://arduino.cc
+
+Package: arm-sam-gcc
+Section: compilers
+Architecture: any
+XBSC-Group: ARM
+Description: Arduino SAM Compiler
+ The standard Arduino 1.6.x compiler for SAM3X boards
+

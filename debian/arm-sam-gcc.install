@@ -1,0 +1,5 @@
+tmp/arm-none-eabi compilers/arm-sam-gcc
+tmp/bin compilers/arm-sam-gcc
+tmp/lib compilers/arm-sam-gcc
+tmp/share compilers/arm-sam-gcc
+debian/uecide/compiler.txt compilers/arm-sam-gcc

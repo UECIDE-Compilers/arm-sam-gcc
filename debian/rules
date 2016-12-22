@@ -1,0 +1,57 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+# This file was originally written by Joey Hess and Craig Small.
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+DEBVERS := $(shell dpkg-parsechangelog | sed -n -e 's/^Version: //p')
+VERSION := $(shell echo '$(DEBVERS)' | sed -e 's/^[[:digit:]]*://' -e 's/[~-].*//')
+
+JSON_URL=http://downloads.arduino.cc/packages/package_index.json
+
+CORE_URL=$(shell debian/parse_json.php -i package_index.json -P "Arduino SAM Boards (32-bits ARM Cortex-M3)" -v $(VERSION) -p arduino -k url)
+CORE_NAME=$(shell debian/parse_json.php -i package_index.json -P "Arduino SAM Boards (32-bits ARM Cortex-M3)" -v $(VERSION) -p arduino -k archiveFileName)
+
+ARCH_linux-amd64 = x86_64-pc-linux-gnu
+ARCH_linux-i386 = i686-pc-linux-gnu
+ARCH_linux-armhf = arm-linux-gnueabihf
+ARCH_linux-armel = arm-linux-gnueabihf
+ARCH_darwin-amd64 = x86_64-apple-darwin
+ARCH_windows-amd64 = i686-mingw32
+ARCH_windows-i386 = i686-mingw32
+
+EXT_tar.gz = tar -C tmp -xvf 
+EXT_tar.bz2 = tar -C tmp -jvf 
+EXT_tar.xz = tar -C tmp -Jvf 
+EXT_zip = unzip -d tmp 
+
+%:
+	dh $@ 
+
+override_dh_builddeb:
+	dh_builddeb -- -Zgzip
+
+uecide_download_json:
+	wget -c $(JSON_URL)
+
+uecide_download_package:
+	echo $(DEB_HOST_ARCH)
+	wget -c `debian/parse_json.php -i package_index.json -T arm-none-eabi-gcc -p arduino -v $(DEBVERS) -h $(ARCH_$(DEB_HOST_ARCH)) -k url`
+
+override_dh_auto_build: uecide_download_json uecide_download_package
+	mkdir -p tmp
+	debian/extract `debian/parse_json.php -i package_index.json -T arm-none-eabi-gcc -p arduino -v $(DEBVERS) -h $(ARCH_$(DEB_HOST_ARCH)) -k archiveFileName`
+	mv tmp/gcc-arm-none-eabi-*/* tmp/
+
+override_dh_auto_clean:
+	rm -rf tmp package_index.json
+
+override_dh_strip:
+override_dh_shlibdeps:
+override_dh_link:
+override_dh_makeshlibs:
