@@ -1,4 +1,4 @@
-Source: arm-sam-gcc
+Source: arm-none-eabi-gcc
 Section: compilers
 XBSC-Family: arm-sam
 Priority: extra
@@ -7,10 +7,11 @@ Build-Depends: debhelper (>= 8.0.0)
 Standards-Version: 3.9.4
 Homepage: http://arduino.cc
 
-Package: arm-sam-gcc
+Package: arm-none-eabi-gcc
 Section: compilers
 Architecture: any
+Replaces: arm-sam-gcc
 XBSC-Group: ARM
-Description: Arduino SAM Compiler
- The standard Arduino 1.6.x compiler for SAM3X boards
+Description: ARM GCC Compiler
+ The standard Arduino 1.6.x compiler for SAM3X/SAMD boards
 
