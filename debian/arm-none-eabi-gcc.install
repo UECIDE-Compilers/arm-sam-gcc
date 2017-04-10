@@ -1,0 +1,5 @@
+tmp/arm-none-eabi compilers/arm-none-eabi-gcc
+tmp/bin compilers/arm-none-eabi-gcc
+tmp/lib compilers/arm-none-eabi-gcc
+tmp/share compilers/arm-none-eabi-gcc
+debian/uecide/compiler.txt compilers/arm-none-eabi-gcc

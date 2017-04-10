@@ -13,6 +13,7 @@ DEBVERS := $(shell dpkg-parsechangelog | sed -n -e 's/^Version: //p')
 VERSION := $(shell echo '$(DEBVERS)' | sed -e 's/^[[:digit:]]*://' -e 's/[~-].*//')
 
 JSON_URL=http://downloads.arduino.cc/packages/package_index.json
+DOWNLOADS=../../downloads
 
 CORE_URL=$(shell debian/parse_json.php -i package_index.json -P "Arduino SAM Boards (32-bits ARM Cortex-M3)" -v $(VERSION) -p arduino -k url)
 CORE_NAME=$(shell debian/parse_json.php -i package_index.json -P "Arduino SAM Boards (32-bits ARM Cortex-M3)" -v $(VERSION) -p arduino -k archiveFileName)
@@ -41,11 +42,11 @@ uecide_download_json:
 
 uecide_download_package:
 	echo $(DEB_HOST_ARCH)
-	wget -c `debian/parse_json.php -i package_index.json -T arm-none-eabi-gcc -p arduino -v $(DEBVERS) -h $(ARCH_$(DEB_HOST_ARCH)) -k url`
+	wget -O $(DOWNLOADS)/`debian/parse_json.php -i package_index.json -T arm-none-eabi-gcc -p arduino -v $(DEBVERS) -h $(ARCH_$(DEB_HOST_ARCH)) -k archiveFileName` -c `debian/parse_json.php -i package_index.json -T arm-none-eabi-gcc -p arduino -v $(DEBVERS) -h $(ARCH_$(DEB_HOST_ARCH)) -k url`
 
 override_dh_auto_build: uecide_download_json uecide_download_package
 	mkdir -p tmp
-	debian/extract `debian/parse_json.php -i package_index.json -T arm-none-eabi-gcc -p arduino -v $(DEBVERS) -h $(ARCH_$(DEB_HOST_ARCH)) -k archiveFileName`
+	debian/extract $(DOWNLOADS)/`debian/parse_json.php -i package_index.json -T arm-none-eabi-gcc -p arduino -v $(DEBVERS) -h $(ARCH_$(DEB_HOST_ARCH)) -k archiveFileName`
 	mv tmp/gcc-arm-none-eabi-*/* tmp/
 
 override_dh_auto_clean:

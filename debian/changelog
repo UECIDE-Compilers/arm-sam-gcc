@@ -1,4 +1,4 @@
-arm-sam-gcc (4.8.3-2014q1) uecide; urgency=low
+arm-none-eabi-gcc (4.8.3-2014q1) uecide; urgency=low
 
   * Clean branch
 

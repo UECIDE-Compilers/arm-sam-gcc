@@ -2,6 +2,7 @@ name=arm-sam-gcc
 version=4.4.1
 revision=3
 family=arm-sam
+description=ARM GCC Compiler 4.8.3
 
 compiler.cflags=-g::-w::-ffunction-sections::-fdata-sections::-nostdlib::-MMD::-mthumb
 compiler.cppflags=${compiler.cflags}::-fno-rtti::-fno-exceptions
